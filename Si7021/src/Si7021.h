@@ -47,7 +47,6 @@ public:
   
   virtual bool update();
   
-  void begin();
   float getTemp() const;
   float getRH() const;
   bool isFault() const;

@@ -2,8 +2,6 @@
 
 #include "Si7021.h"
 
-const byte led = 13;
-
 Si7021::Si7021(const uint16_t interval) : 
   StateMachine(1, true), 
   m_state(eInitial),
@@ -14,8 +12,6 @@ Si7021::Si7021(const uint16_t interval) :
   m_temp(0.0),
   m_fault(false)
 {
-  pinMode(led, OUTPUT);
-  digitalWrite(led, LOW);
 }
 
 bool Si7021::update()
@@ -44,13 +40,11 @@ bool Si7021::update()
       // Verify status register is reset.
       if (status != 0x3A) {
         // If not, enter fault state.
-        digitalWrite(led, HIGH);
         m_sample = now + 50;
         m_fault = true;
         m_state = eFault;
       } else {
         // Otherwise, ready for normal operation.
-        digitalWrite(led, LOW);
         m_sample = now + m_interval;
         m_fault = false;
         m_state = eReady;
@@ -67,8 +61,6 @@ bool Si7021::update()
       // Set 25 msec delay.
       m_delay = now + 25;
       m_state = eReading;
-      // Turn on LED during delay.
-      digitalWrite(13, HIGH);
     }
     
   } else if (m_state == eReading) {
@@ -96,8 +88,6 @@ bool Si7021::update()
       // Set time for next sample.
       m_sample = now + m_interval;
       m_state = eReady;
-      // Turn off LED upon completion.
-      digitalWrite(13, LOW);
       
     }
       
@@ -112,11 +102,6 @@ bool Si7021::update()
   }
   
   return true;
-}
-
-void Si7021::begin()
-{
-  Wire.begin();
 }
 
 float Si7021::getTemp() const
