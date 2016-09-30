@@ -33,7 +33,7 @@ bool Si7021::update()
   } else if (m_state == eResetting) {
     
     // If delay has expired...
-    if (now >= m_delay) {
+    if ((now - m_delay) >= 0) {
       
       // Verify status register has been reset.
       uint8_t status = readRegister8(eReadRHTReg);
@@ -55,7 +55,7 @@ bool Si7021::update()
   } else if (m_state == eReady) {
     
     // If it's time to sample...
-    if (now >= m_sample) {
+    if ((now - m_sample) >= 0) {
       // ... send command to read RH.
       writeCommand(eMeasRH_NoHold, false);
       // Set 25 msec delay.
@@ -66,7 +66,7 @@ bool Si7021::update()
   } else if (m_state == eReading) {
     
     // If delay has expired...
-    if (now >= m_delay) {
+    if ((now - m_delay) >= 0) {
       
       // Request 3 bytes of RH data and checksum (not used).
       Wire.requestFrom(Si7021_ADDR, 3);
@@ -95,7 +95,7 @@ bool Si7021::update()
       
     // If we're in a fault state, wait and then try to reset sensor.
     // m_fault will remain true until reset succeeds.
-    if (now >= m_sample) {
+    if ((now - m_sample) >= 0) {
       m_state = eInitial;
     }
     
