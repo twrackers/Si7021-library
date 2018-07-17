@@ -11,11 +11,11 @@ Si7021	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 update	KEYWORD2
-begin   KEYWORS2
-getTemp KEYWORD2
-getRH   KEYWORD2
-isFault KEYWORD2
-reset   KEYWORD2
+begin	KEYWORS2
+getTemp	KEYWORD2
+getRH	KEYWORD2
+isFault	KEYWORD2
+reset	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
